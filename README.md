@@ -13,6 +13,8 @@ npm install
 npm run start
 ```
 
+open http://localhost:1234/ in your browser
+
 ## Build
 
 ```
