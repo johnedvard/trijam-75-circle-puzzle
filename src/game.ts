@@ -1,19 +1,23 @@
-import { init, GameLoop, initPointer, on, Sprite, setStoreItem, getStoreItem, emit, track} from 'kontra';
+import { init, GameLoop, initKeys, initPointer, on, Sprite, setStoreItem, getStoreItem, emit, track} from 'kontra';
 import { IGameObject } from './gameObject';
 import { GameEvent, GameEventData } from './gameEvent';
+import { MainPlayer } from './mainPlayer';
 export class Game {
     gameObjects: IGameObject[] = [];
     gameCanvas;
     canvasSprite;
     modalEl: HTMLElement;
     isSubscriber = false;
+    mainPlayer: MainPlayer;
     loop: GameLoop;
     constructor() {
+        initKeys();
         const { canvas, context } = init('game');
         this.checkForSubscriber();
+        this.mainPlayer = new MainPlayer();
         this.modalEl = document.getElementById('modal');
         this.gameCanvas = canvas;
-        this.gameObjects = [];
+        this.gameObjects = [this.mainPlayer];
         initPointer();
         this.loop = GameLoop({ 
             update: this.update,
@@ -49,7 +53,7 @@ export class Game {
             y: 0,
             width: this.gameCanvas.width,
             height: this.gameCanvas.height,
-            color: "rgba(125,125,125,0.2)",
+            color: "rgba(0,0,0,0.7)",
             onDown: this.onCanvasDown,
         });
         track(this.canvasSprite);
