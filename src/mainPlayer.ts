@@ -83,6 +83,7 @@ export class MainPlayer implements IGameObject {
     }
     if(this.checkWinCondition()) {
       console.log("you win");
+      document.getElementById("won").classList.remove("hidden");
     }
   };
   trackObject = () => {
