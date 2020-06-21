@@ -3,3 +3,4 @@ dist
 .cache
 .DS_Store
 package-lock.json
+dist.zip

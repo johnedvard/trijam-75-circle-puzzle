@@ -1,5 +1,4 @@
 body{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 12px;
     height: 100%;
     width: auto;
@@ -8,6 +7,7 @@ body{
     padding: 0px;
     margin: 0px;
     overflow: hidden;
+    font-family: 'Anonymous Pro',Lato,LatoExtended,sans-serif;
 }
 
 .modal {
@@ -17,7 +17,6 @@ body{
     position: absolute;
     bottom: 0;
     text-align: center;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 18px;
     font-weight: bold;
 }
