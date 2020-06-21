@@ -8,10 +8,28 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
+    <div id="won" class="hidden"> You won, congratulations </div>
     <div class="game-info">
       <div id="subscriber" class="hidden">Subscriber 🥇</div>
     </div>
     <canvas id="game" width="512" height="512"></canvas>
+    <div>
+      <h2>How to play</h2>
+      <p> The goal is to get all the three squares into the black and white squares</p>
+      <p> Player 1 controls the white square
+        <ul>
+          <li>using "a", "s", "d", "w" to move</li>
+          <li>using "q" to shring the circle, and "e" to enlarge the circle</li>
+        </ul>
+      </p>
+      <p> Player 2 controls the two blue squares
+        <ul>
+          <li>using "o" and "p" to move the dark blue square along the circle </li>
+          <li>using "i" and "j" to move the light blue square along the circle </li>
+        </ul>
+      </p>
+      <p> This game prototype was made in 3 hours and 30 minutes. </p>
+    </div>
     <div id="modal" class="modal close">
       Init
     </div>
