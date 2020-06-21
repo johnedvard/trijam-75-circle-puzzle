@@ -4,6 +4,7 @@ This is a project used as a seed to start creating your game without doing all t
 
 This project uses typescript and Kontra as the game engine.
 
+[Play the game here](https://trijam-75.netlify.app/)
 ## Start testing your game
 
 Run the following in your terminal window
