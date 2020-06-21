@@ -1,6 +1,7 @@
 import { Sprite, keyPressed } from 'kontra';
 import { IGameObject } from './gameObject';
 import { MainPlayer } from './mainPlayer';
+import { MyTileEngine } from './tileEngine';
 
 export class SecondPlayer implements IGameObject {
   static ID = 0;
@@ -8,28 +9,24 @@ export class SecondPlayer implements IGameObject {
   sprite: Sprite;
   alpha: number; // radians
   mainPlayer: MainPlayer;
-  rotRight: string;
-  rotLeft: string;
+  rotRightKey: string;
+  rotLeftKey: string;
   rotSpeed = 0.05;
-  constructor(mainPlayer: MainPlayer, alpha: number, rotLeft: string, rotRight: string) {
+  tileEngine: MyTileEngine;
+  constructor(mainPlayer: MainPlayer, alpha: number, rotLeftKey: string, rotRightKey: string, tileEngine: MyTileEngine) {
+    this.tileEngine = tileEngine;
     this.id = SecondPlayer.ID++;
     this.alpha = alpha;
     this.mainPlayer = mainPlayer;
-    this.rotLeft = rotLeft;
-    this.rotRight = rotRight;
+    this.rotLeftKey = rotLeftKey;
+    this.rotRightKey = rotRightKey;
     this.sprite = Sprite({
       x: mainPlayer.x  + 20,
       y: mainPlayer.y + 20,
       anchor: {x: 0.5, y: 0.5},
-      radius: 10,
+      width: 10,
+      height: 10,
       color: this.id === 0 ? '#a8dadc' : "#457b9d",
-      render: function() {
-        this.context.fillStyle = this.color;
-    
-        this.context.beginPath();
-        this.context.arc(this.x, this.y, this.radius, 0, 2  * Math.PI);
-        this.context.fill();
-      }
     });
   }
   
@@ -40,23 +37,42 @@ export class SecondPlayer implements IGameObject {
   update = () => {
     // todo change position from player1
     // apply any rotation with pivot point from main player x,y
-    if(keyPressed(this.rotLeft)) {
-      this.alpha -= this.rotSpeed;
-      if(this.alpha <= 0) {
-        this.alpha = 6.28;
+    let alphaCpy = this.alpha;
+    if(keyPressed(this.rotLeftKey)) {
+      alphaCpy -= this.rotSpeed;
+      if(alphaCpy <= 0) {
+        alphaCpy = 6.28;
       }
     }
-    if(keyPressed(this.rotRight)) {
-      this.alpha += this.rotSpeed;
-      if(this.alpha >= 6.28) {
-        this.alpha = 0;
+    if(keyPressed(this.rotRightKey)) {
+      alphaCpy += this.rotSpeed;
+      if(alphaCpy >= 6.28) {
+        alphaCpy = 0;
       }
     }
-    this.sprite.x = this.mainPlayer.x + this.mainPlayer.radius * Math.cos(this.alpha);
-    this.sprite.y = this.mainPlayer.y + this.mainPlayer.radius * Math.sin(this.alpha);
-    console.log("sprite", this.sprite);
+    const newPos = this.getCirclePos(this.mainPlayer.x, this.mainPlayer.y, this.mainPlayer.radius, alphaCpy); 
+    let collisionObj = {width: this.sprite.width, height: this.sprite.height, x:newPos.x, y:newPos.y, anchor: this.sprite.anchor}
+    if(!this.tileEngine.layerCollidesWith("wall", collisionObj)) {
+      this.alpha = alphaCpy;
+    }
+    this.sprite.x = newPos.x;
+    this.sprite.y = newPos.y;
     this.sprite.update();
   };
   trackObject = () => {};
   untrackObject =  () => {};
+  getCirclePos = (x, y, radius, alpha) => {
+    const newX = x + radius * Math.cos(alpha);
+    const newY = y + radius * Math.sin(alpha);
+    return {x:newX, y: newY};
+  }
+  get height() {
+    return this.sprite.height;
+  }
+  get width() {
+    return this.sprite.width;
+  }
+  get anchor(){
+    return {...this.sprite.anchor};
+  }
 }

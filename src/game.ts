@@ -2,6 +2,7 @@ import { init, GameLoop, initKeys, initPointer, on, Sprite, setStoreItem, getSto
 import { IGameObject } from './gameObject';
 import { GameEvent, GameEventData } from './gameEvent';
 import { MainPlayer } from './mainPlayer';
+import { MyTileEngine } from './tileEngine';
 export class Game {
     gameObjects: IGameObject[] = [];
     gameCanvas;
@@ -10,13 +11,15 @@ export class Game {
     isSubscriber = false;
     mainPlayer: MainPlayer;
     loop: GameLoop;
+    tileEngine: MyTileEngine;
     constructor() {
         initKeys();
         const { canvas, context } = init('game');
         this.checkForSubscriber();
-        this.mainPlayer = new MainPlayer();
+        this.tileEngine = new MyTileEngine();
         this.modalEl = document.getElementById('modal');
         this.gameCanvas = canvas;
+        this.mainPlayer = new MainPlayer(this.tileEngine);
         this.gameObjects = [this.mainPlayer];
         initPointer();
         this.loop = GameLoop({ 
@@ -28,6 +31,7 @@ export class Game {
     }
     render = () => {
         this.canvasSprite.render();
+        this.tileEngine.render();
         this.gameObjects.forEach(go => {
             if(go) {
                 go.render();
