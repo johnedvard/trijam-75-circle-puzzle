@@ -1,8 +1,4 @@
-# Game Jam Seed
-
-This is a project used as a seed to start creating your game without doing all the heavy lifting by setting up your project
-
-This project uses typescript and Kontra as the game engine.
+# Trijam 75
 
 [Play the game here](https://trijam-75.netlify.app/)
 ## Start testing your game
